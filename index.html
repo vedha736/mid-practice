@@ -86,3 +86,324 @@ function validateLogin() {
 
 </body>
 </html>
+Alright dude — this is a **full DevOps lab workflow question**. I’ll give you a **clear step-by-step you can actually follow in exam/lab without confusion** 💯
+
+---
+
+# 🔥 **SET I – Step-by-Step (Maven + Git + Jenkins CI/CD)**
+
+## ✅ **Step 1: Create Maven Project Structure**
+
+Open terminal / VS Code:
+
+```bash
+mkdir my-app
+cd my-app
+mkdir -p src/main/java/com/example
+mkdir -p src/test/java/com/example
+touch pom.xml
+touch src/main/java/com/example/App.java
+```
+
+### ✍️ Sample `App.java`
+
+```java
+package com.example;
+
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello DevOps!");
+    }
+}
+```
+
+---
+
+## ✅ **Step 2: Initialize Git & Push to GitHub**
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+```
+
+Create repo in GitHub → then:
+
+```bash
+git remote add origin https://github.com/your-username/my-app.git
+git branch -M main
+git push -u origin main
+```
+
+---
+
+## ✅ **Step 3: Clone into VS Code**
+
+```bash
+git clone https://github.com/your-username/my-app.git
+cd my-app
+code .
+```
+
+Make small change → then:
+
+```bash
+git add .
+git commit -m "Updated code"
+git push
+```
+
+---
+
+## ✅ **Step 4: Build Maven Project**
+
+```bash
+mvn clean install
+```
+
+✔️ This ensures project works for Jenkins
+
+---
+
+## ✅ **Step 5: Jenkins Setup (Pipeline)**
+
+### In Jenkins:
+
+1. Open Jenkins → New Item
+2. Select **Pipeline**
+3. Name: `my-app-pipeline`
+
+---
+
+### ✍️ Add Pipeline Script:
+
+```groovy
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/your-username/my-app.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+    }
+}
+```
+
+👉 Click **Build Now**
+
+---
+
+# 🚀 **SET II – Step-by-Step (HTML + Docker + Kubernetes + Jenkins)**
+
+---
+
+## ✅ **Step 1: Create Resume Website (index.html)**
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Resume</title>
+</head>
+<body>
+    <h1>Vedhanayaki</h1>
+    <p>DevOps Enthusiast</p>
+</body>
+</html>
+```
+
+---
+
+## ✅ **Step 2: Push to GitHub**
+
+Same Git steps:
+
+```bash
+git init
+git add .
+git commit -m "Resume page"
+git remote add origin https://github.com/your-username/resume.git
+git push -u origin main
+```
+
+---
+
+## ✅ **Step 3: Dockerize App**
+
+### Create `Dockerfile`
+
+```Dockerfile
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+```
+
+---
+
+### Build Docker Image
+
+```bash
+docker build -t resume-app .
+```
+
+---
+
+### Run Container
+
+```bash
+docker run -d -p 8080:80 resume-app
+```
+
+👉 Open browser: `http://localhost:8080`
+
+---
+
+## ✅ **Step 4: Kubernetes Deployment**
+
+### Create `deployment.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resume-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: resume
+  template:
+    metadata:
+      labels:
+        app: resume
+    spec:
+      containers:
+      - name: resume
+        image: resume-app
+        ports:
+        - containerPort: 80
+```
+
+---
+
+### Apply Deployment
+
+```bash
+kubectl apply -f deployment.yaml
+kubectl get pods
+```
+
+---
+
+## ✅ **Step 5: Jenkins Pipeline (Full CI/CD)**
+
+```groovy
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/your-username/resume.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t resume-app .'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+}
+```
+
+---
+
+# 🧠 **Exam Tips (IMPORTANT)**
+
+👉 If time is less, just write:
+
+* Maven structure
+* Git commands
+* Jenkins pipeline script
+* Dockerfile
+* Kubernetes YAML
+
+👉 Even if execution fails → **you’ll still get marks for steps**
+
+---
+
+# 💯 If you want next:
+
+I can give you:
+
+* Ready-made **perfect record note format**
+* Diagram (Architecture for AWS/DevOps)
+* OR quick revision sheet before exam
+
+Just tell me 👍
+[4/15, 9:19 PM] Tamilarasi Mis Vit: pipeline {
+agent any
+tools {
+maven 'M3'
+}
+stages {
+stage('Checkout Git') {
+steps {
+git branch: 'main',
+url: 'https://github.com/tamilarasi-jm/new-repo-maven.git'
+}
+}
+stage('Build and Test') {
+steps {
+bat 'mvn clean test'
+}
+}
+}
+}
+[4/15, 9:19 PM] Tamilarasi Mis Vit: pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/tamilarasi-jm/agile.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t resume-app .'
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    bat 'kubectl get nodes'
+                    bat 'kubectl apply -f deployment.yaml'
+                }
+            }
+        }
+    }
+}
